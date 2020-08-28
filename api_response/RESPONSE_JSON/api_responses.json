@@ -1,0 +1,30 @@
+{
+    "id_not_found" : {
+        "Status" : "Id not found"
+    },
+
+    "api_endpoint" : {
+        "welcome" : "This is api endpoint. Here are the things you can try...",
+        "routes" : [
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/"
+        ]
+    },
+
+    "user_api_endpoint" : {
+        "welcome" : "This is USERS api endpoint. Here are the things you can try...",
+        "routes" : [
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/",
+            "https://this/is/route/1/"            
+        ]
+    }
+    
+}

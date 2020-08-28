@@ -24,3 +24,4 @@ urlpatterns = [
 ]
 
 handler404 = 'api_response.views.error404'
+handler500 = 'api_response.views.error500'
