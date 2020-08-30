@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.http import JsonResponse
-from users.serve_users import UserServer
+from users_api_service.serve_users import UserServer
 import json
 import sqlite3
 import os

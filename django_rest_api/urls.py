@@ -16,11 +16,15 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 import api_response
+import loginsys
+from home import views as homeviews
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-
+    
+    path('', homeviews.home),
     path('api/domain/', include('api_response.urls')),
+    path('domain/auth/', include('loginsys.urls'))
 ]
 
 handler404 = 'api_response.views.error404'

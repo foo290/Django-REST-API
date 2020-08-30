@@ -1,0 +1,17 @@
+{% extends 'base.html' %}
+
+
+{% block content %}
+
+<div class="container">
+    <h2>This is home page</h2>
+
+    <div class="jumbotron mt-5">
+        <a href="{% url 'Sign-Up' %}">SignUp|</a>
+        <a href="{% url 'Log-In' %}"> |Login</a>
+    </div>
+
+</div>
+
+
+{% endblock %}
