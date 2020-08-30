@@ -1,16 +1,25 @@
 {% extends 'base.html' %}
-
+{%load crispy_forms_tags%}
 
 {% block content %}
 
 
+<div class="container mt-5">
+    <form method='POST' enctype="multipart/form-data">
+        {% csrf_token %}
+    
+        <fieldset>
+            {{user_update_form|crispy}}
+            {{profile_update_form|crispy}}
+        </fieldset>
+    
+        <div class="from-group">
+            <button class="btn btn-outline-info" type="submit"> Update</button>
+            <a href="{%url 'Home'%}" class="btn btn-outline-success"> Home</a>
+        </div>
 
-
-{{user.profile.bio}}
-
-<div class="container">
-    {{user.profile.img.url}}
-    <a href="{% url 'Home' %}">Home</a>
+    </form>
 </div>
+
 
 {% endblock %}

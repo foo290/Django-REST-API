@@ -9,6 +9,7 @@
     <div class="jumbotron mt-5">
         {%if user.is_authenticated%}
             <a href="{% url 'Log-Out' %}">Logout|</a>
+            <a href="{% url 'User-Profile' %}">Profile|</a>
         {%else%}
             <a href="{% url 'Sign-Up' %}">SignUp|</a>
             <a href="{% url 'Log-In' %}"> |Login</a>
