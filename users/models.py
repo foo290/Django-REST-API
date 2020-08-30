@@ -16,7 +16,7 @@ class Profile(models.Model):
     twitter = models.CharField(max_length=550, null=True, blank=True)
     instagram = models.CharField(max_length=550, null=True, blank=True)
     
-    web = models.CharField(max_length=550, null=True, blank=True)
+    website = models.CharField(max_length=550, null=True, blank=True)
 
 
     def __str__(self):
