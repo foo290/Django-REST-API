@@ -25,11 +25,14 @@ from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+
+    path('accounts/new-account/', include('users.urls')),
+    path('accounts/', include('allauth.urls')),
+
     
     path('', homeviews.home, name='Home'),
     path('api/domain/', include('api_response.urls')),
 
-    path('domain/auth/', include('loginsys.urls')),
     path('logout/', LogoutView.as_view(template_name='loginsys/logout_page.html'), name = 'Log-Out'),
     
     path('user/', include('users.urls')),

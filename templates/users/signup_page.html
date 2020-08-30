@@ -1,10 +1,17 @@
 {% extends 'base.html' %}
 
+{% load account socialaccount %}
 {%load crispy_forms_tags%}
+
 
 {% block content %}
 
-<div class="container mt-5">
+<div class="container mt-5 mb-5">
+
+    <div class="mt-5" style="text-align: center;">
+        <h1>Sign up</h1>
+    </div>
+
     <form method='POST' >
         {% csrf_token %}
 
@@ -18,7 +25,7 @@
     </form>
 
     <div class="border-top pt-3 mt-3">
-        <small class="text-muted">Already have an account? <a href="#" class="ml-2">Login here</a> </small>
+        <small class="text-muted">Already have an account? <a href="{% url 'account_login' %}" class="ml-2">Login here</a> </small>
     </div>
 </div>
 

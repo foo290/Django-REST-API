@@ -4,7 +4,7 @@
 {% block content %}
 
 <div class="container">
-    <h2>This is home page</h2>
+    <h2>This is currently underdevelopment and all the pages are roughly format without css.</h2>
 
     <div class="jumbotron mt-5">
         {%if user.is_authenticated%}
@@ -12,7 +12,7 @@
             <a href="{% url 'User-Profile' %}">Profile|</a>
         {%else%}
             <a href="{% url 'Sign-Up' %}">SignUp|</a>
-            <a href="{% url 'Log-In' %}"> |Login</a>
+            <a href="{% url 'account_login' %}"> |Login</a>
         {%endif%}
     </div>
 

@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% load i18n %}
+{% load account socialaccount %}
+{%load crispy_forms_tags%}
+
+{% block content %}
+
+<div class="container">
+
+  <div class="mt-5" style="text-align: center;">
+    <h1>{% trans "Log In" %}</h1>
+  </div>
+
+  {% get_providers as socialaccount_providers %}
+
+  {% if socialaccount_providers %}
+    <p>
+      {% blocktrans with site.name as site_name %}
+        <h2>Sign In with : </h2>
+      {% endblocktrans %}
+    </p>
+    <hr>
+
+    <div class="socialaccount_ballot">
+      <ul class="socialaccount_providers">
+        {% include "socialaccount/snippets/provider_list.html" with process="login" %}
+      </ul>
+      <div class="login-or mb-3">{% trans 'OR Login with Email :' %}</div>
+    </div>
+
+    {% include "socialaccount/snippets/login_extra.html" %}
+
+  {% else %}
+    <p>{% blocktrans %}If you have not created an account yet, then please
+    <a href="{{ Sign-Up }}">sign up</a> first.{% endblocktrans %}</p>
+  {% endif %}
+
+  <hr>
+  <form class="login" method="POST" action="{% url 'account_login' %}">
+    {% csrf_token %}
+    
+    <fieldset>
+      {{form|crispy}}
+    </fieldset>
+    
+    {% if redirect_field_value %}
+      <input type="hidden" name="{{ redirect_field_name }}" value="{{ redirect_field_value }}" />
+    {% endif %}
+    
+    <hr>
+    <div class="from-group">
+      <button class="primaryAction btn btn-outline-info mr-3" type="submit">{% trans "Sign In" %}</button>
+      | Need an account?<a href="{% url 'Sign-Up' %}"> sign up</a> | 
+      <a class="button secondaryAction ml-3" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+    </div>
+  
+  </form>
+
+</div>
+
+
+{% endblock %}

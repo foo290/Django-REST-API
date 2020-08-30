@@ -20,11 +20,11 @@ def register_user(request):
             form.save()
             username = form.cleaned_data.get('username')
             messages.success(request, f'Account has been created for {username}, You can login with these credentials now!')
-            return redirect('Log-In')
+            return redirect('account_login')
     else:
         form = UserRegisterForm()
 
-    return render(request, 'loginsys/signup_page.html', context={'form': form})
+    return render(request, 'users/signup_page.html', context={'form': form})
 
 
 
