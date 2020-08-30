@@ -1,6 +1,5 @@
 # Django-REST-api
-Underdevelopment
-user api endpoint
+THIS IS UNDERDEVELOPMENT
 
 ### User data
 Command
