@@ -40,7 +40,7 @@ INSTALLED_APPS = [
     'api_response',
     'loginsys',
     'home',
-    'users',
+    'users.apps.UsersConfig',
     'crispy_forms',
 ]
 
@@ -126,5 +126,8 @@ STATIC_URL = '/static/'
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
-LOGIN_REDIRECT_URL = '/'
+LOGIN_REDIRECT_URL = 'Home'
 LOGIN_URL = 'Log-In'
+
+MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
+MEDIA_URL = '/Media/'

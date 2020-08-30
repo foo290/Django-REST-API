@@ -1,10 +1,10 @@
 from django.contrib import admin
 from django.urls import path
-from .views import profile
+from . import views
 
 
 urlpatterns = [
     
-    path('profile/', profile, name = 'User-Profile'),
-    
+    path('profile/', views.profile, name = 'User-Profile'),
+    path('register/', views.register_user, name = 'Sign-Up'),
 ]

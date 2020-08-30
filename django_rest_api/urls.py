@@ -20,17 +20,24 @@ import loginsys
 from home import views as homeviews
 from django.contrib.auth.views import LogoutView
 import users
+from django.conf import settings
+from django.conf.urls.static import static
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('', homeviews.home, name='Home'),
     path('api/domain/', include('api_response.urls')),
+
     path('domain/auth/', include('loginsys.urls')),
     path('logout/', LogoutView.as_view(template_name='loginsys/logout_page.html'), name = 'Log-Out'),
+    
     path('user/', include('users.urls')),
 
 ]
+
+if settings.DEBUG:
+    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
 handler404 = 'api_response.views.error404'
 handler500 = 'api_response.views.error500'

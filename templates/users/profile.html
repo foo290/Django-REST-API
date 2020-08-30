@@ -3,9 +3,13 @@
 
 {% block content %}
 
-<div class="container">
-    {{user.username}}
 
+
+
+{{user.profile.bio}}
+
+<div class="container">
+    {{user.profile.img.url}}
     <a href="{% url 'Home' %}">Home</a>
 </div>
 
