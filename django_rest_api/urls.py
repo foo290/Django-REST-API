@@ -18,13 +18,18 @@ from django.urls import path, include
 import api_response
 import loginsys
 from home import views as homeviews
+from django.contrib.auth.views import LogoutView
+import users
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     
-    path('', homeviews.home),
+    path('', homeviews.home, name='Home'),
     path('api/domain/', include('api_response.urls')),
-    path('domain/auth/', include('loginsys.urls'))
+    path('domain/auth/', include('loginsys.urls')),
+    path('logout/', LogoutView.as_view(template_name='loginsys/logout_page.html'), name = 'Log-Out'),
+    path('user/', include('users.urls')),
+
 ]
 
 handler404 = 'api_response.views.error404'
