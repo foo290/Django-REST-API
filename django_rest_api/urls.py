@@ -18,7 +18,15 @@ from django.urls import path, include
 import api_response
 import loginsys
 from home import views as homeviews
-from django.contrib.auth.views import LogoutView
+
+from django.contrib.auth.views import (
+    LogoutView,
+    PasswordResetView,
+    PasswordResetDoneView,
+    PasswordResetConfirmView,
+    PasswordResetCompleteView
+)
+
 import users
 from django.conf import settings
 from django.conf.urls.static import static
@@ -34,7 +42,27 @@ urlpatterns = [
     path('api/domain/', include('api_response.urls')),
 
     path('logout/', LogoutView.as_view(template_name='loginsys/logout_page.html'), name = 'Log-Out'),
+
+    path('password-reset/', PasswordResetView.as_view(
+        template_name='loginsys/password_reset.html'
+        ),
+        name = 'password_reset'),
+
+    path('password-reset-confirm/<uidb64>/<token>/', PasswordResetConfirmView.as_view(
+        template_name='loginsys/password_reset_confirm.html'
+        ),
+        name = 'password_reset_confirm'),
+
+    path('password-reset/done/', PasswordResetDoneView.as_view(
+        template_name='loginsys/password_reset_done.html'
+        ),
+        name = 'password_reset_done'),
     
+    path('password-reset-complete/', PasswordResetCompleteView.as_view(
+        template_name='loginsys/password_reset_complete.html'
+        ),
+        name = 'password_reset_complete'),
+
     path('user/', include('users.urls')),
 
 ]

@@ -3,9 +3,13 @@ __pycache__/
 *.py[cod]
 *$py.class
 
+# ----------------------------------------CUSTOM------------------------
+
 # vs code and pycharm files
 /.vscode
 /.idea
+/staticfiles
+# ----------------------------------------------------------------------
 
 # C extensions
 *.so

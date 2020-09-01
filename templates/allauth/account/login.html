@@ -1,14 +1,15 @@
 {% extends "base.html" %}
 
+
 {% load i18n %}
 {% load account socialaccount %}
 {%load crispy_forms_tags%}
 
 {% block content %}
 
-<div class="container">
+<div class="container mt-5" style="box-shadow: 0px 0px 10px 0px; border-radius: 15px; padding: 30px 30px 30px 30px ;">
 
-  <div class="mt-5" style="text-align: center;">
+  <div style="text-align: center;">
     <h1>{% trans "Log In" %}</h1>
   </div>
 
@@ -17,15 +18,14 @@
   {% if socialaccount_providers %}
     <p>
       {% blocktrans with site.name as site_name %}
-        <h2>Sign In with : </h2>
+        <h2>log In with : </h2>
       {% endblocktrans %}
     </p>
     <hr>
 
-    <div class="socialaccount_ballot">
-      <ul class="socialaccount_providers">
+    <div >
         {% include "socialaccount/snippets/provider_list.html" with process="login" %}
-      </ul>
+      
       <div class="login-or mb-3">{% trans 'OR Login with Email :' %}</div>
     </div>
 
@@ -52,7 +52,7 @@
     <div class="from-group">
       <button class="primaryAction btn btn-outline-info mr-3" type="submit">{% trans "Sign In" %}</button>
       | Need an account?<a href="{% url 'Sign-Up' %}"> sign up</a> | 
-      <a class="button secondaryAction ml-3" href="{% url 'account_reset_password' %}">{% trans "Forgot Password?" %}</a>
+      <a class="button ml-3" href="{% url 'password_reset' %}">{% trans "Forgot Password?" %}</a>
     </div>
   
   </form>
