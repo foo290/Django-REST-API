@@ -6,11 +6,13 @@ from .forms import (
     UserUpdateForm,
     ProfileUpdateForm,
 )
+from django.views.decorators.csrf import csrf_protect
 
+from webhooks.views import temp_data
 
 # Create your views here.
 
-
+@csrf_protect
 def register_user(request):
     
     if request.method == 'POST':
@@ -28,7 +30,7 @@ def register_user(request):
 
 
 
-
+@csrf_protect
 @login_required()
 def profile(request):
     if request.method == 'POST':
@@ -49,6 +51,8 @@ def profile(request):
     context = {
         'user_update_form': user_update_form,
         'profile_update_form': profile_update_form,
+        'webhooks_data': temp_data
     }
+    
 
     return render(request, 'users/profile.html', context)

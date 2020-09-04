@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from api_response.views import UsersViews
+import api_response.views as api_views
 
 urlpatterns = [
 
@@ -8,7 +8,8 @@ urlpatterns = [
     
 
 
-    path('', UsersViews().default_api_response),
-    path('users/', UsersViews().api_users),
-    path('users/<slug:userid>/', UsersViews().api_user_data),
+    path('', api_views.default_api_response),
+    path('users/', api_views.api_users),
+    path('test/', api_views.test),
+    path('users/<slug:userid>/', api_views.api_user_data),
 ]
