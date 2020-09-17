@@ -37,12 +37,9 @@ urlpatterns = [
 
     path('accounts/new-account/', include('users.urls')),
     path('accounts/', include('allauth.urls')),
-    
-    path('webhook/', include('webhooks.urls')),
-
-    
+        
     path('', homeviews.home, name='Home'),
-    path('api/domain/', include('api_response.urls')),
+    
 
     path('logout/', LogoutView.as_view(template_name='loginsys/logout_page.html'), name = 'Log-Out'),
 
@@ -67,6 +64,11 @@ urlpatterns = [
         name = 'password_reset_complete'),
 
     path('user/', include('users.urls')),
+
+    # API and WEBHOOKS Patterns
+
+    path('api/domain/', include('api_response.urls')),
+    path('webhook/', include('webhooks.urls')),
 
 ]
 

@@ -16,3 +16,8 @@ def github_webhook_point(request):
 
         return HttpResponse(b'200 : OK')
         pass
+
+
+# POST Request :
+# $ curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/webhook/reverse-api-request/callback-point/github/
+# data should be json
