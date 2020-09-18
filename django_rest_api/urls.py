@@ -67,7 +67,7 @@ urlpatterns = [
 
     # API and WEBHOOKS Patterns
 
-    path('api/domain/', include('api_response.urls')),
+    path('api.domain/', include('api_response.urls')),
     path('webhook/', include('webhooks.urls')),
 
 ]
@@ -75,5 +75,5 @@ urlpatterns = [
 if settings.DEBUG:
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 
-handler404 = 'api_response.views.error404'
-handler500 = 'api_response.views.error500'
+# handler404 = 'api_response.views.error404'
+# handler500 = 'api_response.views.error500'

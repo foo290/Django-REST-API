@@ -21,3 +21,6 @@ def github_webhook_point(request):
 # POST Request :
 # $ curl -d '{"key1":"value1", "key2":"value2"}' -H "Content-Type: application/json" -X POST http://127.0.0.1:8000/webhook/reverse-api-request/callback-point/github/
 # data should be json
+from allauth.app_settings import SOCIALACCOUNT_ENABLED
+
+print(SOCIALACCOUNT_ENABLED)
