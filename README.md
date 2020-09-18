@@ -70,7 +70,7 @@ PROFILE_MODEL = 'profile'
 
 ## Output
 
-#### Without prfile model
+#### Without profile model
 ```
 $ curl http://127.0.0.1:8000/api.domain/users/1/
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
