@@ -125,6 +125,10 @@ $ curl http://127.0.0.1:8000/api.domain/users/1/
     }
 }
 ```
+#### For uninstall, run the following command:
+```
+python -m pip uninstall Django-REST
+```
 
 
 
