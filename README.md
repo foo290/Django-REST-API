@@ -53,15 +53,8 @@ INCLUDE_PROFILE = True
 PROFILE_MODEL = your_profile_model here // can be found at your profile.models
 ```
 
-you can set profile model either by importing actual class like:
+you can set profile model class like:
 ```
-from profile.models import Profile
-
-INCLUDE_PROFILE = True
-PROFILE_MODEL = Profile
-
-        OR
-
 just specify the name of class which has one-to-one relation with user like:
 
 INCLUDE_PROFILE = True
