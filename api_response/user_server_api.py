@@ -1,92 +1,84 @@
 from django.contrib.auth.models import User
+from django.core import serializers
+from .api_app_settings import USER_RELATED_MODELS
+import json
+
 
 class GetUser:
 
-    MERGE_PROFILE_INFO = False
-    PROFILE_MODEL = None
-
     def __init__(self):
         pass
-    
-    def get_user(self, p_key, keytype = 'username'):
-        
+
+    def get_user(self, p_key, keytype='username'):
+
         if p_key:
             if keytype == 'username':
-                user = User.objects.filter(username = p_key)
+                user = User.objects.filter(username=p_key)
             elif keytype == 'id':
-                user = User.objects.filter(id = p_key)
+                user = User.objects.filter(id=p_key)
             else:
-                return 'Not a vaid keytype'
-            
+                return 'Not a valid key type'
             # ----------------------------------------------
-            # Get user Ops:
-
             if user:
                 user = user[0]
-                if not self.MERGE_PROFILE_INFO:
-                    # only return FULL user info excluding profile 
-                    return self.__getFullUserDetails(user)
-                else:
-                    if self.PROFILE_MODEL:
-                        if type(self.PROFILE_MODEL) == type(''):
-                            _profileModel = self.PROFILE_MODEL.lower()
-                        else:
-                            _profileModel = self.PROFILE_MODEL.__name__.lower()
-                        
-                        user_info = self.__getFullUserDetails(user)
-                        profile_info = self.__getUserMergeProfileDetails(user, _profileModel)
-                        user_info.update(profile_info)
-                        return user_info
-                    else:
-                        raise Exception(
-                    'Profile information requested without specifying profile model. Please specify profile model in settings.py as : PROFILE_MODEL = your model'
-                    )
+                user_info = self.__getFullUserDetails(user)
+                user_info.update(UserRelatedModelComputation(user).compute_models())
+                return user_info
             else:
                 return False
         else:
-                return False
-        
+            return False
 
-    def __getFullUserDetails(self, userModel):
-        _user_fields = [field.name for field in userModel._meta.fields]
-        print(_user_fields)
-        for i in ['password', 'is_staff', 'is_superuser']:
-            _user_fields.remove(i)
+    def __getFullUserDetails(self, user_model):
+        raw_data = serializers.serialize('json', [user_model, ])
+        response = json.loads(raw_data)
+        data = response[0]['fields']
 
-        _vals = [getattr(userModel, attr) for attr in _user_fields]
-
-        keys = _user_fields
-        data = {k:v for k,v in zip(keys, _vals)}
-        return data
-    
-    def __getUserMergeProfileDetails(self, userModel, profileModel):
-        _profile_fields = [field.name for field in getattr(userModel, profileModel)._meta.fields]
-        print(_profile_fields)
-        _profile_fields.remove('user')
-
-        _vals = [
-            getattr(getattr(getattr(userModel, profileModel), attr), "url") if
-             getattr(userModel, profileModel)._meta.get_field(attr).get_internal_type() == 'FileField' else
-             getattr(getattr(userModel, profileModel),attr) for 
-             attr in _profile_fields
-        ]
-
-        keys = _profile_fields
-        data = {k:v for k,v in zip(keys, _vals)}
+        for i in ['password', 'is_superuser']:
+            del data[i]
         return data
 
 
-    
-        
+class UserRelatedModelComputation:
+    """Compute response for user related models"""
 
+    def __init__(self, user_model):
+        self.URM = USER_RELATED_MODELS
+        self.user = user_model
 
+    def compute_models(self):
+        q_set = {}
 
+        if self.URM:
+            for model in self.URM:
+                model = model.lower()
+                try:
+                    # print(model)
+                    q_set[model] = getattr(self.user, f'{model}_set').all()
+                except AttributeError:
+                    q_set[model] = getattr(self.user, model)
 
+        return self.compute_queries(q_set)
 
+    def compute_queries(self, q_set):
+        _data = {}
 
+        if q_set:
+            # print(q_set)
+            for name, query in q_set.items():
+                query_data_holder = []
+                try:
+                    for each_query in query:
+                        temp_dic = {}
+                        raw_data = serializers.serialize('json', [each_query])
+                        response = json.loads(raw_data)[0]
+                        temp_dic['id'] = response['pk']
+                        temp_dic.update(response['fields'])
+                        query_data_holder.append(temp_dic)
+                        _data[name] = query_data_holder
+                except TypeError:
+                    raw_data = serializers.serialize('json', [query])
+                    response = json.loads(raw_data)[0]['fields']
+                    _data[name] = response
 
-
-
-
-
-
+        return _data

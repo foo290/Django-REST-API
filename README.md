@@ -1,128 +1,263 @@
-# Django-REST-api
 
-Django-REST-API is an app which lets you make get request for getting user information specified by userid or username.
+# DJANGO-REST-API
 
-### Installation
-clone the repo and run the following command where "dist" dir is:
+
+Django-REST-API is an app which lets you make get request to the database using Django's inbuilt ORMs and returns data in JSON
+
+
+## Quick start
+The steps to getting started is very simple. Like any other app, this can be installed easyly by adding "api_response" in your installed apps like:
+
+### Step 1 :-
+Add "api_response" to your INSTALLED_APPS setting like this:
 ```
-python -m pip install dist/Django-REST-0.1.tar.gz
+    INSTALLED_APPS = [
+        ...
+        "api_response",
+    ]
 ```
-
-
-Quick start
------------
-
-1. Add "api_response" to your INSTALLED_APPS setting like this::
-
+### Step 2 :-
+Include the "api_response" URLconf in your project urls.py like this:
 ```
-INSTALLED_APPS = [
-    ...
-    api_response,
+import api_response
+
+urlpatterns = [
+	...
+	path('api.response/', include('api_response.urls')),	
+
 ]
 ```
 
-2. Include the polls URLconf in your project urls.py like this:
-
 ```
-import api_response
-path('api.yourDomain/', include('api_response.urls')),
-```
- 
-YOU CAN CHANGE THE URL PATTERN HERE ACCORDING TO YOUR PREFERANCE
-BUT DON'T FORGET TO ADD "/users" WHILE MAKING API REQUESTS AT THE END.
-FOR EX:
-```
-http://127.0.0.1:8000/YOUR_PATTERN/users/ "id OR username"
+Note : change the url pattern ('api.response/') to anything you like...
 ```
 
-3. Start the development server and visit ```http://127.0.0.1:8000/api.yourDomain/```
-
-5. To request user info visit:
-
-```
-http://127.0.0.1:8000/api.yourDomain/users/id/
-    OR
-http://127.0.0.1:8000/api.yourDomain/users/username_here/
-```
-#### You can request userinfo either by username or id.
-
-6. If you have a user profile app which extends django default user configurations, then to merge profile add following to your settings.py::
+### Step 4 :-
+Specify the apps on which you want to enable the api in <b>settings.py</b> as :
 
 ```
-INCLUDE_PROFILE = True
-PROFILE_MODEL = your_profile_model here // can be found at your profile.models
-```
+API_ENABLED_APPS = {
+    'App name': 'Model name'
+}
 
-you can set profile model class like:
+A dict that contains your 'App name' as key and 'Model name' as its values.
 ```
-just specify the name of class which has one-to-one relation with user like:
+Note 'Model name' is the class name you make in your App.models file by inheriting models.Model and App name is simply the name of your app.
 
-INCLUDE_PROFILE = True
-PROFILE_MODEL = 'profile'
+#### At this point, your api is ready to use
+ Start the development server and visit http://127.0.0.1:8000/api.yourDomain/
+
+ you will see a welcome message at api endpoint as :
 ```
-
-## Output
-
-#### Without profile model
+{
+    "WELCOME": "This is the api endpoint.",
+    "suggested": "Start making request on API_URLS that you've specified",
+}
 ```
-$ curl http://127.0.0.1:8000/api.domain/users/1/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100   319  100   319    0     0  53166      0 --:--:-- --:--:-- --:--:-- 53166{
-    "status": "Success",
-    "id": "1",
-    "details": {
-        "id": 1,
-        "last_login": "2020-09-13T07:56:22.792Z",
-        "username": "ns290",
-        "first_name": "",
-        "last_name": "",
-        "email": "ns@gmail.com",
-        "is_active": true,
-        "date_joined": "2020-09-13T05:57:07Z"
-    }
+### Note : Your URLs are namespaced by your 'App Name' so if you have an app named 'products', the url will be:
+```
+http://127.0.0.1:8000/api.response/products/
+```
+These API urls can be customized and you can specify your own (multiple) url pattern for your app as described below.
+
+## Advance
+
+### Customize your api URL patterns
+By default the urls are namespaced by app name but you can specify your own url pattern in <b>settings.py</b> as :
+
+```
+API_URLS = {
+    'App name': [
+		'pattern 1',
+		'pattern 2',
+		...
+	],
+	'App name 2': [
+		'pattern 1',
+		...
+	]
+}
+
+A dict containing 'App name' as key and 'url patterns' (may be multiple) as values.
+For Ex. :-
+
+API_URLS = {
+    'product': [
+        'products/<int:id>',
+		'products/<str:name>'
+		...
+    ]
 }
 ```
 
-### After adding profile model to settings.py like: 
+### ATTENTION : The arguments names passed in url pattern must be same as fields specified in model.
+for ex :- <br>
+models.py :
 ```
-INCLUDE_PROFILE = True
-PROFILE_MODEL = 'profile'
+from django.db import models
+
+class Product(models.Model):
+    name = models.CharField(max_length = 100)
+    price = models.FloatField()
+	
+	...
 ```
+In the example above, if I want to make a url pattern which gets the products for a specific price or name, the pattern's argument names will be 'name' and 'price'. Ex :
+```
+API_URLS = {
+    'product': [
+        'products/<str:name>',	--> 'name' as argument
+		'products/<int:price>'	--> 'price' as argument
+		...
+    ]
+}
+```
+On every start of dev server, the url patterns will be printed on console to confirm it is made as specified like :
+
+```
+python manage.py runserver
+
+
+Watching for file changes with StatReloader
+Performing system checks...
+
+API_URL_patterns --> [<URLPattern 'products/'>, <URLPattern 'blog/'>, <URLPattern 'users/<slug:userid>/'>, <URLPattern ''>, <URLPattern 'users/'>]
+
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+
+### Block default api URL:
+As urls for api are made by default as soon as the apps is added in API_ENABLED_APPS, you can block urls for apps by typing "block" inplace of pattern and default urls will be removed for that app.
+
+### This does not block your url to access the page.
+
+For ex:
+```
+API_URLS = {
+    'product': [
+        'block'
+    ]
+}
+```
+You can see if the URL is blocked or not when you run dev server as :
+
+```
+python manage.py runserver
+
+...
+Performing system checks...
+
+API URL blocked for  --> product, by URL_PATTERN_BLOCKER : "block"
+
+Starting development server at http://127.0.0.1:8000/
+Quit the server with CTRL-BREAK.
+```
+
+## Getting User data :
+User model may have relations with other models in apps in your projects (like users have profile or posts of blogs) either by ForeignKey or One-to-One fields. To get these included in user api response, simple specify USER_RELATED_MODELS with model names you want to include in <b>settings.py</b> as
+
+```
+USER_RELATED_MODELS = [
+    'profile',
+	'post', 
+]
+
+A list containing model names which have some relations with User by ForeignKey or One-to-one relation.
+```
+
+### Accessing user's api URL
+You can get user details either by user id or username as they are unique identifiers by visiting.
+
+```
+http://127.0.0.1:8000/api.response/users/id/
+			OR
+http://127.0.0.1:8000/api.response/users/username/
+```
+# Output
 
 ```
 $ curl http://127.0.0.1:8000/api.domain/users/1/
   % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
                                  Dload  Upload   Total   Spent    Left  Speed
-100   554  100   554    0     0  61555      0 --:--:-- --:--:-- --:--:-- 61555{
+100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
+    "status": 200,
+    "id": "1",
+    "details": {
+        "last_login": "2020-09-19T08:09:18.895Z",
+        "username": "ns290",
+        "first_name": "Nitin",
+        "last_name": "Sharma",
+        "email": "ns@gmail.com",
+        "is_active": true,
+        "date_joined": "2020-09-13T05:57:07Z",
+        "groups": [],
+        "user_permissions": [],
+	}
+}
+```
+
+### Output after adding profile and post models to USER_RELATED_MODEL
+
+```
+$ curl http://127.0.0.1:8000/api.domain/users/1/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
     "status": "Success",
     "id": "1",
     "details": {
-        "id": 1,
-        "last_login": "2020-09-13T07:56:22.792Z",
+        "last_login": "2020-09-19T08:09:18.895Z",
         "username": "ns290",
         "first_name": "",
         "last_name": "",
         "email": "ns@gmail.com",
         "is_active": true,
         "date_joined": "2020-09-13T05:57:07Z",
-        "img": "/Media/default_pfp.jpg",
-        "bio": null,
-        "city": null,
-        "country": null,
-        "company": null,
-        "github": null,
-        "twitter": null,
-        "instagram": null,
-        "website": null
+        "groups": [],
+        "user_permissions": [],
+        "profile": {
+            "user": 1,
+            "img": "default_pfp.jpg",
+            "bio": 'Keep it logically awesome! 😃',
+            "city": null,
+            "country": 'India',
+            "company": null,
+            "github": 'https://github.com/foo290',
+            "twitter": 'https://twitter.com/_foo290',
+            "instagram": "https://instagram.com/_iamnitinsharma",
+            "website": 'https://foo290.github.io.com'
+        },
+        "post": [
+            {
+                "model": "blog.post",
+                "pk": 1,
+                "fields": {
+                    "title": "post 1",
+                    "author": 1
+                }
+            },
+            {
+                "model": "blog.post",
+                "pk": 2,
+                "fields": {
+                    "title": "post 2",
+                    "author": 1
+                }
+            },
+            {
+                "model": "blog.post",
+                "pk": 3,
+                "fields": {
+                    "title": "post 3",
+                    "author": 1
+                }
+            }
+        ]
     }
 }
-```
-#### For uninstall, run the following command:
-```
-python -m pip uninstall Django-REST
-```
 
+```
 
 
 
