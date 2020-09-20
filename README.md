@@ -120,7 +120,7 @@ In the example above, if I want to make a url pattern which gets the products fo
 API_URLS = {
     'product': [
         'products/<str:name>',	--> 'name' as argument
-		'products/<int:price>'	--> 'price' as argument
+	'products/<int:price>'	--> 'price' as argument
 		...
     ]
 }
