@@ -1,7 +1,9 @@
 <h1 align='center'>DJANGO-REST-API</h1>
 
 
-<img src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .' height="200" align='center'>
+<p align="center" >
+<img  height="200" src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .'>
+</p>
 
 Django-REST-API is an app which lets you make get request to the database using Django's inbuilt ORMs and returns data in JSON
 
