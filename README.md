@@ -268,6 +268,9 @@ $ curl http://127.0.0.1:8000/api.domain/users/1/
 python -m pip uninstall Django-REST-API
 ```
 
+# License
+<a href='https://github.com/foo290/Django-REST-API/blob/master/GNU GPLv3 LICENSE'>License</a>
+
 
 
 
