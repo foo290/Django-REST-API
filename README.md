@@ -269,7 +269,7 @@ python -m pip uninstall Django-REST-API
 ```
 
 # License
-<a href='https://github.com/foo290/Django-REST-API/blob/master/GNU GPLv3 LICENSE'>License</a>
+<a href='https://github.com/foo290/Django-REST-API/blob/master/LICENSE'>GNU GPLv3 License</a>
 
 
 
