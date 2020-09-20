@@ -43,7 +43,7 @@ urlpatterns = [
 Note : change the url pattern ('api.response/') to anything you like...
 ```
 
-### Step 4 :-
+### Step 3 :-
 Specify the apps on which you want to enable the api in <b>settings.py</b> as :
 
 ```
