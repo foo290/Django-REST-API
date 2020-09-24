@@ -71,7 +71,13 @@ http://127.0.0.1:8000/api.response/products/
 ```
 These API urls can be customized and you can specify your own (multiple) url pattern for your app as described in Advance section below.
 
-Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
+Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
+for ex:
+```
+RESPONSE_LENGTH = 100  # will show first 100 results
+	OR
+RESPONSE_LENGTH = 'all'  # will show full results
+```
 
 # Advance
 
