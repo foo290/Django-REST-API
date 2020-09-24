@@ -1,6 +1,6 @@
 from django.conf import settings
 
-GET_FULL_RESPONSE_RESPONSE = 'all'
+GET_FULL_RESPONSE = 'all'
 
 # Debug for api is set to False by default
 DEBUG = False
@@ -24,9 +24,9 @@ try:
     # This number can be altered by defining a variable in settings.py named ENDPOINT_RESPONSE_LENGTH
     # Set this variable to any number or set it to "all" to show all results by default.
 
-    ENDPOINT_RESPONSE_LENGTH = settings.ENDPOINT_RESPONSE_LENGTH
+    RESPONSE_LENGTH = settings.RESPONSE_LENGTH
 except AttributeError:
-    ENDPOINT_RESPONSE_LENGTH = 10
+    RESPONSE_LENGTH = 10
 
 try:
     # APPS on which REST api is enabled defined as dict in settings.py

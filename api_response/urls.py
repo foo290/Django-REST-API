@@ -31,7 +31,9 @@ for app in API_ENABLED_APPS:
 urlpatterns += [
     path('users/<slug:userid>/', api_views.api_user_data),
     path('', api_views.default_api_response),
-    path('users/', api_views.user_api_endpoint)
+    path('users/', api_views.user_api_endpoint),
+    path('testapi/<slug:user>/<slug:operator>/<slug:id>', api_views.test_api)
 ]
 
 print(f'API_URL_patterns --> {urlpatterns}')
+

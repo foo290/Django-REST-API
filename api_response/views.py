@@ -1,4 +1,4 @@
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.views.decorators.csrf import csrf_protect
 from .user_server_api import GetUser
 from . import api_app_settings
@@ -89,3 +89,9 @@ def error404(request, exception):
 def error500(request, exception):
     response_data = ApiDefaultResponses.ERROR_500
     return JsonResponse(response_data, json_dumps_params={'indent': 4}, safe=False)
+
+def test_api(request, **kwargs):
+    print(kwargs)
+    print(request.path)
+
+    return HttpResponse('success')

@@ -1,21 +1,15 @@
 from django.apps import apps as dj_apps
 from django.core import serializers
 from .json_responses import ApiDefaultResponses
+from .snippets import validate_response_length
 import json
 from .api_app_settings import (
-    ENDPOINT_RESPONSE_LENGTH,
-    GET_FULL_RESPONSE_RESPONSE,
+    RESPONSE_LENGTH,
+    GET_FULL_RESPONSE,
     DEBUG
 )
 
-try:
-    ENDPOINT_RESPONSE_LENGTH = int(ENDPOINT_RESPONSE_LENGTH)
-except:
-    if ENDPOINT_RESPONSE_LENGTH == GET_FULL_RESPONSE_RESPONSE:
-        ENDPOINT_RESPONSE_LENGTH = None
-    else:
-        raise TypeError('ENDPOINT_RESPONSE_LENGTH --> Must be either "all" or an integer')
-
+RESPONSE_LENGTH = validate_response_length(RESPONSE_LENGTH, GET_FULL_RESPONSE)
 
 class ResponseServer:
     def __init__(self):
@@ -29,7 +23,7 @@ class ResponseServer:
             return self.query_database(queryset)
 
         else:
-            queryset = model.objects.all().order_by('-id')[:ENDPOINT_RESPONSE_LENGTH]
+            queryset = model.objects.all().order_by('-id')[:RESPONSE_LENGTH]
             response = self.query_database(queryset)
             additional_info = ApiDefaultResponses.APP_ENDPOINT['info']
             if DEBUG:

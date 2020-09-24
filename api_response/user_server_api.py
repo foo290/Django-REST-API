@@ -56,7 +56,10 @@ class UserRelatedModelComputation:
                     # print(model)
                     q_set[model] = getattr(self.user, f'{model}_set').all()
                 except AttributeError:
-                    q_set[model] = getattr(self.user, model)
+                    try:
+                        q_set[model] = getattr(self.user, model)
+                    except:
+                        pass
 
         return self.compute_queries(q_set)
 
