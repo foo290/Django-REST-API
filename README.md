@@ -43,7 +43,7 @@ urlpatterns = [
 Note : change the url pattern ('api.response/') to anything you like...
 ```
 
-### Step 4 :-
+### Step 3 :-
 Specify the apps on which you want to enable the api in <b>settings.py</b> as :
 
 ```
@@ -120,7 +120,7 @@ In the example above, if I want to make a url pattern which gets the products fo
 API_URLS = {
     'product': [
         'products/<str:name>',	--> 'name' as argument
-		'products/<int:price>'	--> 'price' as argument
+	'products/<int:price>'	--> 'price' as argument
 		...
     ]
 }
@@ -267,6 +267,9 @@ $ curl http://127.0.0.1:8000/api.domain/users/1/
 ```
 python -m pip uninstall Django-REST-API
 ```
+
+# License
+<a href='https://github.com/foo290/Django-REST-API/blob/master/LICENSE'>GNU GPLv3 License</a>
 
 
 
