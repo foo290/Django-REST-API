@@ -97,7 +97,7 @@ python -m pip install dist/Django-REST-API-1.0.tar.gz
 
 
 ## Quick start
-The steps to getting started is very simple. Like any other app, this can be installed easyly by adding "api_response" in your installed apps like:
+The steps to getting started is very simple. Like any other app, this can be installed easily by adding "api_response" in your installed apps like:
 
 ### Step 1 :-
 Add "api_response" to your INSTALLED_APPS setting like this:
@@ -152,13 +152,13 @@ Note 'Model name' is the class name you make in your App.models file by inheriti
     "suggested": "Start making request on API_URLS that you've specified",
 }
 ```
-### Note : Your URLs are namespaced by your 'App Name' so if you have an app named 'products', the url will be:
+### Note : Your URLs are namespaced as 'app_name/model_name/' so if you have an app named 'blog' and model named 'Post', the url will be:
 ```
-http://127.0.0.1:8000/api.response/products/
+http://127.0.0.1:8000/api.response/blog/post/
 ```
 These API urls can be customized and you can specify your own (multiple) url pattern for your app as described in Advance section below.
 
-Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
+Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/blog/post/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
 
 # Advance
 
