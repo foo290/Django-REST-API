@@ -1,9 +1,8 @@
-<h1 align='center'>DJANGO-REST-API</h1>
 
 
-<p align="center" >
-<img  height="200" src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .'>
-</p>
+<h1 style='text-align:center'>DJANGO-REST-API</h1>
+
+<img src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .' height="200" style='display:block; margin-left:auto; margin-right:auto;'>
 
 Django-REST-API is an app which lets you make get request to the database using Django's inbuilt ORMs and returns data in JSON
 
@@ -53,6 +52,15 @@ API_ENABLED_APPS = {
 
 A dict that contains your 'App name' as key and 'Model name' as its values.
 ```
+### Important : If you have more than one model in you app, you can simply pass them in a list or tuple as :
+
+```
+API_ENABLED_APPS = {
+    'App name': ['Model 1 name', 'model 2 name', ... ]
+}
+
+A dict that contains your 'App name' as key and list of 'Model name' as its values.
+```
 Note 'Model name' is the class name you make in your App.models file by inheriting models.Model and App name is simply the name of your app.
 
 #### At this point, your api is ready to use
@@ -71,39 +79,33 @@ http://127.0.0.1:8000/api.response/products/
 ```
 These API urls can be customized and you can specify your own (multiple) url pattern for your app as described in Advance section below.
 
-Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
-for ex:
-```
-RESPONSE_LENGTH = 100  # will show first 100 results
-	OR
-RESPONSE_LENGTH = 'all'  # will show full results
-```
+Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
 
 # Advance
 
 ## Customize your api URL patterns
-By default the urls are namespaced by app name but you can specify your own url pattern in <b>settings.py</b> as :
+By default the urls are namespaced by "app_name/model_name/" but you can specify your own url pattern and get more control over passing arguments in URLs by configuring <b>settings.py</b> as :
 
 ```
 API_URLS = {
-    'App name': [
+    'Model name 1': [
 		'pattern 1',
 		'pattern 2',
 		...
 	],
-	'App name 2': [
+	'Model name 2': [
 		'pattern 1',
 		...
 	]
 }
 
-A dict containing 'App name' as key and 'url patterns' (may be multiple) as values.
+A dict containing 'Model name' as key and 'url patterns' (may be multiple) as values.
 For Ex. :-
 
 API_URLS = {
     'product': [
         'products/<int:id>/',
-	'products/<str:name>/'
+		'products/<str:name>/'
 		...
     ]
 }
@@ -125,12 +127,14 @@ In the example above, if I want to make a url pattern which gets the products fo
 ```
 API_URLS = {
     'product': [
-        'products/<str:name>',	--> 'name' as argument
-	'products/<int:price>'	--> 'price' as argument
+        'products/<str:name>/',	--> 'name' as argument
+		'products/<int:price>/'	--> 'price' as argument
 		...
     ]
 }
 ```
+<b>Note:</b> If you specify URL for an app in API_URLS, you are fully responsible for the pattern specified.
+
 On every start of dev server, the url patterns will be printed on console to confirm it is made as specified like :
 
 ```
@@ -146,7 +150,7 @@ Quit the server with CTRL-BREAK.
 ```
 
 ## Block default api URL:
-As urls for api are made by default as soon as the apps is added in API_ENABLED_APPS, you can block urls for apps by typing "block" inplace of pattern and default urls will be removed for that app.
+As urls for api are made by default as soon as the apps is added in API_ENABLED_APPS, you can block urls for apps by typing "block" inplace of pattern and default urls will be removed for that model.
 
 ### This does not block your url to access the page.
 
@@ -273,9 +277,6 @@ $ curl http://127.0.0.1:8000/api.domain/users/1/
 ```
 python -m pip uninstall Django-REST-API
 ```
-
-# License
-<a href='https://github.com/foo290/Django-REST-API/blob/master/LICENSE'>GNU GPLv3 License</a>
 
 
 

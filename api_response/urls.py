@@ -10,23 +10,35 @@ from .api_app_settings import (
 urlpatterns = []
 
 # Making URL patterns based on user specified models and pattern
-for app in API_ENABLED_APPS:
-    if app not in API_URLS:
-        urlpatterns.append(path(f'{app}/', api_views.respond_to_call, {
-            'app_name': app,
-            'model_name': API_ENABLED_APPS[app]
-        }))
-    else:
-        for pattern in API_URLS[app]:
-            if pattern != URL_PATTERN_BLOCKER:
-                urlpatterns.append(path(f'{pattern}', api_views.respond_to_call,
-                                        {
-                                            'app_name': app,
-                                            'model_name': API_ENABLED_APPS[app]
-                                        }))
-            else:
-                print(f'API_URLS blocked for  --> "{app}", by URL_PATTERN_BLOCKER : "{pattern}"')
 
+def make_patterns(app, model):
+    for model in models_list:
+        if model not in API_URLS:
+            urlpatterns.append(path(f'{app}/{model}/', api_views.respond_to_call, {
+                'app_name': app,
+                'model_name': model
+            }))
+        else:
+            for pattern in API_URLS[model]:
+                if pattern != URL_PATTERN_BLOCKER:
+                    urlpatterns.append(path(f'{pattern}', api_views.respond_to_call,
+                                            {
+                                                'app_name': app,
+                                                'model_name': model
+                                            }))
+                else:
+                    print(f'API_URLS blocked for  --> "{app}", by URL_PATTERN_BLOCKER : "{pattern}"')
+
+    
+# Trying to make a list if single model is given else pass as it is
+for app, models_list in API_ENABLED_APPS.items():
+    try:
+        models_list = models_list.split()
+        make_patterns(app, models_list)
+    except AttributeError:
+        make_patterns(app, models_list)
+
+    
 # Fixed URL patterns for user model
 urlpatterns += [
     path('users/<slug:userid>/', api_views.api_user_data),
