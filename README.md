@@ -1,9 +1,90 @@
 
+<h1 align='center'>DJANGO-REST-API</h1>
 
-<h1 style='text-align:center'>DJANGO-REST-API</h1>
 
-<img src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .' height="200" style='display:block; margin-left:auto; margin-right:auto;'>
+<p align="center" >
+<img  height="200" src='https://github.com/foo290/Django-REST-API/blob/master/readme_imgs/django.png?raw=true' alt='An image was supposed to be here . . .'>
+</p>
 
+# Output
+
+```
+$ curl http://127.0.0.1:8000/api.domain/users/1/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
+    "status": 200,
+    "id": "1",
+    "details": {
+        "last_login": "2020-09-19T08:09:18.895Z",
+        "username": "ns290",
+        "first_name": "Nitin",
+        "last_name": "Sharma",
+        "email": "ns@gmail.com",
+        "is_active": true,
+        "date_joined": "2020-09-13T05:57:07Z",
+        "groups": [],
+        "user_permissions": [],
+	}
+}
+```
+
+## Output after adding profile and post models to USER_RELATED_MODEL
+
+```
+$ curl http://127.0.0.1:8000/api.domain/users/1/
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
+    "status": "Success",
+    "id": "1",
+    "details": {
+        "last_login": "2020-09-19T08:09:18.895Z",
+        "username": "ns290",
+        "first_name": "",
+        "last_name": "",
+        "email": "ns@gmail.com",
+        "is_active": true,
+        "is_staff": true,
+        "date_joined": "2020-09-13T05:57:07Z",
+        "groups": [],
+        "user_permissions": [],
+        "profile": {
+            "user": 1,
+            "img": "default_pfp.jpg",
+            "bio": 'Keep it logically awesome! 😃',
+            "city": null,
+            "country": 'India',
+            "company": null,
+            "github": 'https://github.com/foo290',
+            "twitter": 'https://twitter.com/_foo290',
+            "instagram": "https://instagram.com/_iamnitinsharma",
+            "website": 'https://foo290.github.io.com'
+        },
+        "post": [
+            {
+                "id": 1,
+                "title": "post 1",
+                "author": 1
+            },
+            {
+                "id": 2,
+                "title": "post 2",
+                "author": 1
+            },
+            {
+                "id": 3,
+                "title": "post 3",
+                "author": 1
+            }
+        ]
+    }
+}
+
+```
+
+
+# Intro
 Django-REST-API is an app which lets you make get request to the database using Django's inbuilt ORMs and returns data in JSON
 
 ## Installation
@@ -16,7 +97,7 @@ python -m pip install dist/Django-REST-API-1.0.tar.gz
 
 
 ## Quick start
-The steps to getting started is very simple. Like any other app, this can be installed easyly by adding "api_response" in your installed apps like:
+The steps to getting started is very simple. Like any other app, this can be installed easily by adding "api_response" in your installed apps like:
 
 ### Step 1 :-
 Add "api_response" to your INSTALLED_APPS setting like this:
@@ -29,8 +110,6 @@ Add "api_response" to your INSTALLED_APPS setting like this:
 ### Step 2 :-
 Include the "api_response" URLconf in your project urls.py like this:
 ```
-import api_response
-
 urlpatterns = [
 	...
 	path('api.response/', include('api_response.urls')),	
@@ -73,13 +152,13 @@ Note 'Model name' is the class name you make in your App.models file by inheriti
     "suggested": "Start making request on API_URLS that you've specified",
 }
 ```
-### Note : Your URLs are namespaced by your 'App Name' so if you have an app named 'products', the url will be:
+### Note : Your URLs are namespaced as 'app_name/model_name/' so if you have an app named 'blog' and model named 'Post', the url will be:
 ```
-http://127.0.0.1:8000/api.response/products/
+http://127.0.0.1:8000/api.response/blog/post/
 ```
 These API urls can be customized and you can specify your own (multiple) url pattern for your app as described in Advance section below.
 
-Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/products/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
+Note : At the App's endpoints like ```http://127.0.0.1:8000/api.response/blog/post/``` , only 10 results are shown by default to prevent server from overloading by unwanted computation. This behaviour can be overridden by specifying a variable named ```ENDPOINT_RESPONSE_LENGTH``` in <b>settings.py</b> . Set this variable to desired number of results you want or set it to "all" to get the full results by default.
 
 # Advance
 
@@ -105,7 +184,7 @@ For Ex. :-
 API_URLS = {
     'product': [
         'products/<int:id>/',
-		'products/<str:name>/'
+	'products/<str:name>/'
 		...
     ]
 }
@@ -195,82 +274,6 @@ You can get user details either by user id or username as they are unique identi
 http://127.0.0.1:8000/api.response/users/id/
 			OR
 http://127.0.0.1:8000/api.response/users/username/
-```
-# Output
-
-```
-$ curl http://127.0.0.1:8000/api.domain/users/1/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
-    "status": 200,
-    "id": "1",
-    "details": {
-        "last_login": "2020-09-19T08:09:18.895Z",
-        "username": "ns290",
-        "first_name": "Nitin",
-        "last_name": "Sharma",
-        "email": "ns@gmail.com",
-        "is_active": true,
-        "date_joined": "2020-09-13T05:57:07Z",
-        "groups": [],
-        "user_permissions": [],
-	}
-}
-```
-
-## Output after adding profile and post models to USER_RELATED_MODEL
-
-```
-$ curl http://127.0.0.1:8000/api.domain/users/1/
-  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
-                                 Dload  Upload   Total   Spent    Left  Speed
-100  1329  100  1329    0     0  41531      0 --:--:-- --:--:-- --:--:-- 42870{
-    "status": "Success",
-    "id": "1",
-    "details": {
-        "last_login": "2020-09-19T08:09:18.895Z",
-        "username": "ns290",
-        "first_name": "",
-        "last_name": "",
-        "email": "ns@gmail.com",
-        "is_active": true,
-        "is_staff": true,
-        "date_joined": "2020-09-13T05:57:07Z",
-        "groups": [],
-        "user_permissions": [],
-        "profile": {
-            "user": 1,
-            "img": "default_pfp.jpg",
-            "bio": 'Keep it logically awesome! 😃',
-            "city": null,
-            "country": 'India',
-            "company": null,
-            "github": 'https://github.com/foo290',
-            "twitter": 'https://twitter.com/_foo290',
-            "instagram": "https://instagram.com/_iamnitinsharma",
-            "website": 'https://foo290.github.io.com'
-        },
-        "post": [
-            {
-                "id": 1,
-                "title": "post 1",
-                "author": 1
-            },
-            {
-                "id": 2,
-                "title": "post 2",
-                "author": 1
-            },
-            {
-                "id": 3,
-                "title": "post 3",
-                "author": 1
-            }
-        ]
-    }
-}
-
 ```
 
 #### To uninstall, run the following command:
