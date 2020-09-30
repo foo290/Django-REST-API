@@ -27,7 +27,7 @@ def make_patterns(app, model):
                                                 'model_name': model
                                             }))
                 else:
-                    print(f'API_URLS blocked for  --> "{app}", by URL_PATTERN_BLOCKER : "{pattern}"')
+                    print(f'API_URLS blocked for  --> "{model}", by URL_PATTERN_BLOCKER : "{pattern}"')
 
     
 # Trying to make a list if single model is given else pass as it is

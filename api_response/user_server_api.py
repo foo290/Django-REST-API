@@ -1,7 +1,9 @@
-from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 from django.core import serializers
 from .api_app_settings import USER_RELATED_MODELS
 import json
+
+User = get_user_model()
 
 
 class GetUser:

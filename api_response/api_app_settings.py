@@ -45,7 +45,7 @@ try:
     # It is a dict containing keys as app name and pattern as values.
     # You can define multiple patterns for one app in a list.
     # API_URLS = {
-    #               'app name as key': [
+    #               'Model name as key': [
     #                                     'url pattern 1 as value',  -->>   "users/<int:userid>/"
     #                                     'url pattern 2 as value',  -->>   "users/<int:userid>/posts/"
     #                                       ...
@@ -53,7 +53,7 @@ try:
     #           }
     # You can also block the default API URL access by writing "block" in pattern. For ex : 
     # API_URLS = {
-    #               'app name as key': [
+    #               'Model name as key': [
     #                                     "block"
     #                                 ]
     #           }
@@ -77,4 +77,4 @@ except AttributeError:
     USER_RELATED_MODELS = []
 
 # Too many try/excepts huh? ... xD
-# Feel free to add your ideas .... :D
+# This is because I wanted to provide detailed information here also... :)
